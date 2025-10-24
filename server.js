@@ -6,17 +6,17 @@ const routes = require('./routes/index');
 const app = express();
 const PORT = 3000;
 
-// Configurar o EJS como view engine
-app.set('view engine', 'ejs');
+
+app.set('view engine', 'ejs'); // renderização de views com EJS que o claudio pediu <-----
 app.set('views', path.join(__dirname, 'views'));
 
-// Servir arquivos estáticos (CSS, imagens) da pasta 'public'
+// css e imagens na pasta public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configurar o body-parser para ler dados de formulários
+// forms de adição de projetos
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Usar as rotas definidas no arquivo 'routes/index.js'
+// configuração das rotas '/' inicia as rotas do arquivo routes/index.js
 app.use('/', routes);
 
 app.listen(PORT, () => {

@@ -6,6 +6,12 @@ const db = require('../data'); // Nosso "banco de dados" mock
 // Renderiza o portfólio principal com todos os dados
 router.get('/', (req, res) => {
   const allData = db.getData();
+
+  console.log("=== DEBUG: Objeto 'allData' que será enviado para o EJS ===");
+  console.log(allData);
+  console.log("=========================================================");
+  
+
   res.render('pages/index', {
     data: allData // Passa todas as variáveis para o EJS
   });
