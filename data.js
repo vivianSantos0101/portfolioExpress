@@ -3,7 +3,7 @@ let data = {
   // Informações para a Página de Apresentação (Hero)
   presentation: {
     fullName: "Vivian Santos",
-    contactEmail: "seu.email@example.com",
+    contactEmail: "vivian.stoliveira@gmail.com", // <-- EMAIL ATUALIZADO
     bio: "Sou estudante de Análise e Desenvolvimento de Sistemas (3º semestre), com foco em desenvolvimento fullstack. Trabalho com JavaScript, React, Node.js, Java, Python e MySQL. Busco constantemente evoluir na criação de aplicações completas, tanto no frontend quanto no backend.",
     profilePic: "/assets/Eu2.png" // Caminho para a imagem na pasta 'public'
   },
@@ -35,29 +35,43 @@ let data = {
   projects: [
     {
       id: 1,
-      title: "Projeto de E-commerce",
-      description: "UI/UX Design, Desenvolvimento Front-end com React",
-      imageUrl: "https://via.placeholder.com/800x600/f7f7f7/969696?text=Projeto+1",
-      link: "#"
+      title: "BotEcho",
+      description: "IDE com LLM integrada para desenvolvimento Python.",
+      imageUrl: "/assets/LogoBotEcho.png",
+      link: "https://github.com/EquipeEcho/botEcho" // projeto api 2 semestre
     },
     {
       id: 2,
-      title: "Aplicativo de Gestão de Tarefas",
-      description: "Desenvolvimento Fullstack com Node.js e React",
-      imageUrl: "https://via.placeholder.com/800x600/f0f0f0/969696?text=Projeto+2",
-      link: "#"
+      title: "EasyScrum",
+      description: "Ferramenta visual para gerenciamento de projetos ágeis.",
+      imageUrl: "/assets/LogoEasyScrum.png",
+      link: "https://github.com/EquipeEcho/EasyScrum" // projeto api 1 semestre
+    },
+    {
+      id: 3,
+      title: "EntreNova",
+      description: "Plataforma de ideação e gestão de inovação.",
+      imageUrl: "/assets/LogoEntreNova.png",
+      link: "https://github.com/Equipe-SUL/EntreNova-Flix" // projeto api 3 semestre (atual)
+    },
+    {
+      id: 4,
+      title: "Gerenciador de Cursos",
+      description: "Gerenciador de Cursos em JAVA",
+      imageUrl: "/assets/LogoGerenciadorCurso.png",
+      link: "https://github.com/vivianSantos0101/GerenciadorCurso" // CRUD simples 2 semestre
     }
   ],
   
-  // Links (Redes Profissionais)
+  // === LINKS REDES SOCIAIS E CONTATO ===
   socialLinks: [
-    { name: "LinkedIn", href: "#", iconClass: "fab fa-linkedin-in" },
-    { name: "GitHub", href: "#", iconClass: "fab fa-github" },
-    { name: "Behance", href: "#", iconClass: "fab fa-behance" }
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/vivianstoliveira/", iconClass: "fab fa-linkedin-in" },
+    { name: "GitHub", href: "https://github.com/vivianSantos0101", iconClass: "fab fa-github" }
+    
   ]
+ 
 };
 
-// Exportamos os dados e funções para "mutar" os dados (simulando o CRUD)
 module.exports = {
   getData: () => data,
   
