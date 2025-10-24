@@ -1,4 +1,8 @@
+// server.js ATUALIZADO
+
+require('dotenv').config(); // Carrega as variáveis do .env
 const express = require('express');
+const session = require('express-session'); // Adiciona o session
 const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/index');
@@ -6,17 +10,26 @@ const routes = require('./routes/index');
 const app = express();
 const PORT = 3000;
 
-
-app.set('view engine', 'ejs'); // renderização de views com EJS que o claudio pediu <-----
+// Configura o EJS
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// css e imagens na pasta public
+// Servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
-// forms de adição de projetos
+// Configurar body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// configuração das rotas '/' inicia as rotas do arquivo routes/index.js
+// === CONFIGURAÇÃO DA SESSÃO ===
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fallback_secret_key', // Chave secreta para assinar a sessão
+  resave: false, // Não salva a sessão se não for modificada
+  saveUninitialized: false, // Não cria sessão até algo ser armazenado
+  cookie: { secure: false } // Para desenvolvimento (HTTP). Mude para true se usar HTTPS
+}));
+// === FIM DA CONFIGURAÇÃO DA SESSÃO ===
+
+// Usar as rotas
 app.use('/', routes);
 
 app.listen(PORT, () => {

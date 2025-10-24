@@ -62,7 +62,7 @@ let data = {
 
   // Competências Interpessoais (Soft Skills)
 
-  softSkills: ["Boa comunicação", "Trabalho em Equipe", "Criatividade", "Resolução de Problemas"],
+  softSkills: ["Boa comunicação", "Trabalho em Equipe", "Criatividade", "Resolução de Problemas", "Adaptabilidade", "Gerenciamento de Tempo"],
 
 
 
