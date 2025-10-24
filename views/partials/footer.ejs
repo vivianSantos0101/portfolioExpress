@@ -7,7 +7,7 @@
     <div class="mt-8">
       <a 
         href="mailto:<%= data.presentation.contactEmail %>" 
-        class="inline-flex items-center text-xl md:text-2xl font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-300 px-4 py-2 rounded-lg hover:bg-blue-50"
+        class="inline-flex items-center text-xl md:text-2xl font-semibold text-[var(--navy-primary)] hover:text-[var(--navy-dark)] transition-colors duration-300 px-4 py-2 rounded-lg hover:bg-blue-50" {/* Cores Atualizadas */}
       >
         <i class="far fa-envelope mr-3"></i>
         <%= data.presentation.contactEmail %>
@@ -18,7 +18,7 @@
       <% data.socialLinks.forEach(link => { %>
         <a 
           href="<%= link.href %>" 
-          class="text-gray-400 hover:text-blue-600 transition-colors bg-white p-3 rounded-full shadow-sm hover:shadow-md"
+          class="text-gray-400 hover:text-[var(--navy-primary)] transition-colors bg-white p-3 rounded-full shadow-sm hover:shadow-md" {/* Cor Hover Atualizada */}
           target="_blank" 
           rel="noopener noreferrer"
         >
@@ -30,7 +30,7 @@
     <div class="mt-16 border-t border-gray-200 pt-8 text-gray-500 text-sm">
       &copy; <%= new Date().getFullYear() %> <%= data.presentation.fullName %> &mdash; all rights reserved
     </div>
-    </div>
+  </div>
 </footer>
 
 <div class="binary-background-light">
@@ -56,7 +56,6 @@
       digit.style.fontSize = (Math.random() * 8 + 12) + 'px';
       digit.style.fontWeight = Math.random() > 0.8 ? '600' : '300';
       digit.style.fontFamily = "'Courier New', monospace";
-      
       container.appendChild(digit);
       
       setTimeout(() => {

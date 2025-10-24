@@ -1,10 +1,6 @@
 /* Light Binary Background Styles */
 .binary-background-light {
   position: fixed;
-
-/* Light Binary Background Styles */
-.binary-background-light {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -74,16 +70,11 @@
   z-index: 10;
 }
 
-/* Novas cores do tema Navy Blue */
+
 :root {
-  --navy-primary: #1e3a8a;
-  --navy-light: #3b82f6;
-  --navy-dark: #1e40af;
-  --navy-bg: #f0f4f8;
-  --navy-text: #1e293b;
+  --navy-primary: #172554; /* Azul Marinho mais escuro (blue-950) */
+  --navy-light: #3b82f6;   /* Azul claro (blue-500) - para contraste */
+  --navy-dark: #1e3a8a;    /* Azul intermediário (blue-900) - para hover */
+  --navy-bg: #f0f4f8;      /* Fundo claro */
+  --navy-text: #1e293b;     /* Texto principal */
 }
-
-
-
-}
-/* ... etc ... */
