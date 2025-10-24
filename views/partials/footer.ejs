@@ -1,0 +1,78 @@
+<footer id="contacto" class="bg-gradient-to-b from-blue-50 to-white mt-24 pt-24 pb-12">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Tem um projeto em mente?</h2>
+    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+      Eu adoraria ouvi-lo. Escreva para mim e vamos construir algo incrível juntos.
+    </p>
+    <div class="mt-8">
+      <a 
+        href="mailto:<%= data.presentation.contactEmail %>" 
+        class="inline-flex items-center text-xl md:text-2xl font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-300 px-4 py-2 rounded-lg hover:bg-blue-50"
+      >
+        <i class="far fa-envelope mr-3"></i>
+        <%= data.presentation.contactEmail %>
+      </a>
+    </div>
+    
+    <div class="flex justify-center space-x-6 mt-12">
+      <% data.socialLinks.forEach(link => { %>
+        <a 
+          href="<%= link.href %>" 
+          class="text-gray-400 hover:text-blue-600 transition-colors bg-white p-3 rounded-full shadow-sm hover:shadow-md"
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <i class="<%= link.iconClass %> text-xl"></i>
+        </a>
+      <% }) %>
+    </div>
+    
+    <div class="mt-16 border-t border-gray-200 pt-8 text-gray-500 text-sm">
+      &copy; <%= new Date().getFullYear() %> <%= data.presentation.fullName %> &mdash; Criado com paixão.
+    </div>
+  </div>
+</footer>
+
+<div class="binary-background-light">
+  <div class="binary-rain" id="binaryRain"></div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('binaryRain');
+    if (!container) return;
+    
+    const digits = ['0', '1'];
+    
+    function createDigit() {
+      const digit = document.createElement('div');
+      digit.className = 'binary-digit';
+      digit.textContent = digits[Math.floor(Math.random() * digits.length)];
+      digit.style.left = Math.random() * 100 + 'vw';
+      
+      const isFalling = Math.random() > 0.3;
+      digit.style.animationName = isFalling ? 'fall-straight' : 'rise-straight';
+      digit.style.animationDuration = (Math.random() * 20 + 10) + 's';
+      digit.style.opacity = Math.random() * 0.15 + 0.05;
+      digit.style.fontSize = (Math.random() * 8 + 12) + 'px';
+      digit.style.fontWeight = Math.random() > 0.8 ? '600' : '300';
+      digit.style.fontFamily = "'Courier New', monospace";
+      
+      container.appendChild(digit);
+      
+      setTimeout(() => {
+        if (digit.parentNode) {
+          digit.parentNode.removeChild(digit);
+        }
+      }, parseFloat(digit.style.animationDuration) * 1000);
+    }
+    
+    for (let i = 0; i < 60; i++) {
+      setTimeout(createDigit, Math.random() * 2000);
+    }
+    
+    const interval = setInterval(createDigit, 100);
+  });
+</script>
+
+</body>
+</html>

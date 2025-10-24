@@ -1,0 +1,89 @@
+/* Light Binary Background Styles */
+.binary-background-light {
+  position: fixed;
+
+/* Light Binary Background Styles */
+.binary-background-light {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  overflow: hidden;
+}
+
+.binary-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.binary-digit {
+  position: absolute;
+  color: #1e3a8a; /* Navy blue */
+  font-family: 'Courier New', monospace;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 0 2px rgba(30, 58, 138, 0.1);
+}
+
+/* Animação de cair RETO */
+@keyframes fall-straight {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Animação de subir RETO */
+@keyframes rise-straight {
+  0% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.relative-z-10 {
+  position: relative;
+  z-index: 10;
+}
+
+/* Novas cores do tema Navy Blue */
+:root {
+  --navy-primary: #1e3a8a;
+  --navy-light: #3b82f6;
+  --navy-dark: #1e40af;
+  --navy-bg: #f0f4f8;
+  --navy-text: #1e293b;
+}
+
+
+
+}
+/* ... etc ... */
