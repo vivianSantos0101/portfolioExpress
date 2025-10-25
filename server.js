@@ -1,6 +1,4 @@
-// server.js ATUALIZADO
-
-require('dotenv').config(); // Carrega as variáveis do .env
+require('dotenv').config(); // Carrega as variáveis do .env (DEVE SER A PRIMEIRA LINHA)
 const express = require('express');
 const session = require('express-session'); // Adiciona o session
 const bodyParser = require('body-parser');
@@ -30,6 +28,8 @@ app.use(session({
 // === FIM DA CONFIGURAÇÃO DA SESSÃO ===
 
 // Usar as rotas
+console.log("DEBUG: Tipo da variável 'routes':", typeof routes); // Log de debug temporário
+console.log("DEBUG: Conteúdo da variável 'routes':", routes); // Log de debug temporário
 app.use('/', routes);
 
 app.listen(PORT, () => {

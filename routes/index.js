@@ -1,48 +1,98 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../data'); // Nosso "banco de dados" mock
+const db = require('../data');
+const nodemailer = require('nodemailer');
 
 // ROTA GET / (Página Principal)
 router.get('/', (req, res) => {
   const allData = db.getData();
-  // Linha de debug removida daqui
   res.render('pages/index', {
-    data: allData // Passa todas as variáveis para o EJS
+    data: allData
   });
 });
 
 // === ROTAS PARA SUGESTÕES ===
 
-// ROTA GET /sugestoes - Mostra a página com o formulário de sugestão
+// ROTA GET /sugestoes
 router.get('/sugestoes', (req, res) => {
-  // === CORREÇÃO APLICADA AQUI ===
-  const allData = db.getData(); // Busca todos os dados (incluindo os necessários para o footer)
-  res.render('pages/sugestoes', { data: allData }); // Passa 'data' para a view
-  // ============================
+  const allData = db.getData();
+  res.render('pages/sugestoes', { data: allData });
 });
 
-// ROTA POST /sugestoes - Recebe os dados do formulário
-router.post('/sugestoes', (req, res) => {
-  const sugestao = req.body; // Pega todos os dados do formulário
+// ROTA POST /sugestoes - AGORA ENVIA EMAIL (COM MAIS DEBUG)
+router.post('/sugestoes', async (req, res) => {
+  const sugestao = req.body;
 
-  // Aqui você faria algo com os dados (ex: salvar em um arquivo, BD, etc.)
-  // Por enquanto, vamos apenas mostrar no console do servidor:
-  console.log("=== NOVA SUGESTÃO RECEBIDA ===");
-  console.log("Título:", sugestao.titulo);
-  console.log("Empresa:", sugestao.empresa);
-  console.log("Urgência:", sugestao.urgencia);
-  console.log("Descrição:", sugestao.descricao);
-  console.log("Linguagem:", sugestao.linguagem);
-  if (sugestao.linguagem === 'outra' && sugestao.outraLinguagemNome) {
-    console.log("Outra Linguagem:", sugestao.outraLinguagemNome);
+  console.log("\n--- DEBUG: Iniciando processo de envio de email ---");
+  console.log("DEBUG: Dados recebidos do formulário:", sugestao);
+  console.log(`DEBUG: Verificando variáveis de ambiente...`);
+  console.log(`DEBUG: EMAIL_USER: ${process.env.EMAIL_USER}`);
+  // CUIDADO: Não logue a senha em produção! Apenas para debug temporário. Remova depois.
+  console.log(`DEBUG: EMAIL_PASS existe? ${process.env.EMAIL_PASS ? 'Sim (******)' : 'NÃO!!!'}`);
+
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error("!!! ERRO CRÍTICO: Variáveis EMAIL_USER ou EMAIL_PASS não encontradas no .env !!!");
+    return res.status(500).send("Erro de configuração do servidor para envio de email.");
   }
-  console.log("==============================");
 
-  // Redireciona de volta para a página inicial (ou pode criar uma página de "Obrigado")
-  res.redirect('/');
+  try {
+    // 1. Configurar o transportador
+    console.log("DEBUG: Tentando criar transporter Nodemailer...");
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      // === ATIVAR LOGS DETALHADOS DO NODEMAILER ===
+      logger: true,
+      debug: true // Mostra a comunicação com o servidor SMTP
+      // ===========================================
+    });
+    console.log("DEBUG: Transporter criado.");
+
+    // 2. Montar o conteúdo do email
+    console.log("DEBUG: Montando opções do email...");
+    let linguagemTexto = sugestao.linguagem;
+    if (sugestao.linguagem === 'outra' && sugestao.outraLinguagemNome) {
+      linguagemTexto = `Outra (${sugestao.outraLinguagemNome})`;
+    }
+
+    let mailOptions = {
+      from: `"Portfólio Sugestões" <${process.env.EMAIL_USER}>`,
+      to: 'vivian.stoliveira@gmail.com',
+      subject: `Nova Sugestão de Projeto: ${sugestao.titulo}`,
+      text: `
+        Uma nova sugestão de projeto foi enviada:
+
+        Título: ${sugestao.titulo}
+        Empresa: ${sugestao.empresa}
+        Urgência: ${sugestao.urgencia}
+        Linguagem: ${linguagemTexto}
+
+        Descrição:
+        ${sugestao.descricao}
+      `,
+    };
+    console.log("DEBUG: Opções do email:", mailOptions);
+
+    // 3. Enviar o email
+    console.log("DEBUG: Tentando enviar email via transporter.sendMail...");
+    let info = await transporter.sendMail(mailOptions);
+    console.log('DEBUG: Email aparentemente enviado! Resposta do servidor:', info);
+    console.log("--- DEBUG: Fim do processo de envio de email (Sucesso aparente) ---");
+
+    res.redirect('/');
+
+  } catch (error) {
+    console.error('!!! ERRO CAPTURADO AO ENVIAR EMAIL !!!:', error); // Log detalhado do erro
+    console.log("--- DEBUG: Fim do processo de envio de email (Com Erro) ---");
+    // Mostra o erro também na página para facilitar o debug (remova em produção)
+    res.status(500).send(`Ocorreu um erro ao enviar a sugestão. Verifique o console do servidor. Detalhes: ${error.message}`);
+  }
 });
 
-// === FIM DAS ROTAS DE SUGESTÕES ===
+
 
 
 // === ROTAS DE LOGIN E LOGOUT ===
