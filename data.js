@@ -8,7 +8,7 @@ let data = {
 
     contactEmail: "vivian.stoliveira@gmail.com",
 
-    bio: "Sou estudante de Análise e Desenvolvimento de Sistemas - 3º semestre, com foco em desenvolvimento fullstack. Trabalho com JavaScript, React, Node.js, Java, Python e MySQL. Busco constantemente evoluir na criação de aplicações completas, tanto no frontend quanto no backend.",
+    bio: "Estudante de Análise e Desenvolvimento de Sistemas com forte inclinação para o desenvolvimento full stack. Dedico-me à arquitetura e construção de soluções de software completas, desde a experiência do utilizador até a lógica de negócios e persistência de dados.",
 
     profilePic: "/assets/Eu2.png" // Caminho para a imagem na pasta 'public'
 

@@ -1,4 +1,38 @@
-/* Light Binary Background Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy-primary: #102E4A;
+  --navy-light: #3b82f6;
+  --navy-dark: #184065;
+  --navy-bg: #f0f4f8;
+  --navy-text: #1e293b;
+  --pearl-light: #FFF7E6;
+
+  /* --- ESCOLHA UMA COR DE BRILHO DESCOMENTANDO A LINHA DESEJADA --- */
+  /* Opção 1: Brilho Azul Claro (derivado do Midnight Blue) */
+  --neon-glow-rgba: rgba(80, 106, 138, 0.7); /* Tom #506A8A com 70% opacidade */
+  /* Opção 2: Brilho Branco Suave */
+  /* --neon-glow-rgba: rgba(255, 255, 255, 0.6); */ /* Branco com 60% opacidade */
+  /* --- FIM DA ESCOLHA --- */
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+}
+
+.relative-z-10 {
+  position: relative;
+  z-index: 10;
+}
+
 .binary-background-light {
   position: fixed;
   top: 0;
@@ -20,62 +54,48 @@
 
 .binary-digit {
   position: absolute;
-  color: #1e40af; /* Azul blue-800 do Tailwind */
+  color: #1e40af;
   font-family: 'Courier New', monospace;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   user-select: none;
   pointer-events: none;
-  opacity: 0.4; /* Opacidade base aumentada */
+  opacity: 0.4;
   text-shadow: 0 0 1px rgba(30, 64, 175, 0.2);
 }
 
-/* Animação de cair RETO */
 @keyframes fall-straight {
-  0% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-  10% {
-    opacity: inherit;
-  }
-  90% {
-    opacity: inherit;
-  }
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
+  0% { transform: translateY(-100px); opacity: 0; }
+  10% { opacity: inherit; }
+  90% { opacity: inherit; }
+  100% { transform: translateY(100vh); opacity: 0; }
 }
-
-/* Animação de subir RETO */
 @keyframes rise-straight {
-  0% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-  10% {
-    opacity: inherit;
-  }
-  90% {
-    opacity: inherit;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
+  0% { transform: translateY(100vh); opacity: 0; }
+  10% { opacity: inherit; }
+  90% { opacity: inherit; }
+  100% { transform: translateY(-100px); opacity: 0; }
 }
 
-.relative-z-10 {
-  position: relative;
-  z-index: 10;
+.custom-neon-text {
+  text-shadow:
+    0 0 8px var(--neon-glow-rgba),
+    0 0 15px var(--neon-glow-rgba),
+    0 0 25px var(--neon-glow-rgba);
+  animation: neon-pulse-glow 2s infinite alternate ease-in-out;
 }
 
-:root {
-  --navy-primary: #102E4A;  
-  --navy-light: #3b82f6;    
-  --navy-dark: #184065;     
-  --navy-bg: #f0f4f8;       
-  --navy-text: #1e293b;     
-  --pearl-light: #FFF7E6;   
+@keyframes neon-pulse-glow {
+  from {
+    text-shadow:
+      0 0 8px var(--neon-glow-rgba),
+      0 0 15px var(--neon-glow-rgba),
+      0 0 20px var(--neon-glow-rgba);
+  }
+  to {
+    text-shadow:
+      0 0 10px var(--neon-glow-rgba),
+      0 0 20px var(--neon-glow-rgba),
+      0 0 30px var(--neon-glow-rgba);
+  }
 }
