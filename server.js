@@ -17,11 +17,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar body-parser para ler dados de formulários
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); // <-- BodyParser ANTES de MethodOverride
 
 // === CONFIGURAÇÃO METHOD OVERRIDE ===
 // Procura por '_method' no corpo da requisição POST vinda de um formulário
-app.use(methodOverride('_method')); // Configurado
+app.use(methodOverride('_method')); // <-- MethodOverride DEPOIS de BodyParser
 // ===================================
 
 // === CONFIGURAÇÃO DA SESSÃO ===
@@ -34,7 +34,7 @@ app.use(session({
 // === FIM DA CONFIGURAÇÃO DA SESSÃO ===
 
 // Usar as rotas definidas no arquivo 'routes/index.js'
-app.use('/', routes);
+app.use('/', routes); // <-- Rotas DEPOIS de MethodOverride e Session
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
