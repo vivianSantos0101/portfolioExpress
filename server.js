@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session'); // Adiciona o session
 const bodyParser = require('body-parser');
 const path = require('path');
+const methodOverride = require('method-override'); // Importado
 const routes = require('./routes/index');
 
 const app = express();
@@ -18,6 +19,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Configurar body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// === CONFIGURAÇÃO METHOD OVERRIDE ===
+// Procura por '_method' no corpo da requisição POST vinda de um formulário
+app.use(methodOverride('_method')); // Configurado
+// ===================================
+
 // === CONFIGURAÇÃO DA SESSÃO ===
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback_secret_key', // Chave secreta para assinar a sessão
@@ -28,8 +34,7 @@ app.use(session({
 // === FIM DA CONFIGURAÇÃO DA SESSÃO ===
 
 // Usar as rotas
-console.log("DEBUG: Tipo da variável 'routes':", typeof routes); // Log de debug temporário
-console.log("DEBUG: Conteúdo da variável 'routes':", routes); // Log de debug temporário
+// Removi os logs de debug temporários daqui
 app.use('/', routes);
 
 app.listen(PORT, () => {

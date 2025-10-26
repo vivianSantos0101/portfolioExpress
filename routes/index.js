@@ -6,28 +6,22 @@ const nodemailer = require('nodemailer');
 // ROTA GET / (Página Principal)
 router.get('/', (req, res) => {
   const allData = db.getData();
-  res.render('pages/index', {
-    data: allData
-  });
+  res.render('pages/index', { data: allData });
 });
 
 // === ROTAS PARA SUGESTÕES ===
-
-// ROTA GET /sugestoes
 router.get('/sugestoes', (req, res) => {
   const allData = db.getData();
   res.render('pages/sugestoes', { data: allData });
 });
 
-// ROTA POST /sugestoes - AGORA ENVIA EMAIL (COM MAIS DEBUG)
 router.post('/sugestoes', async (req, res) => {
   const sugestao = req.body;
 
-  console.log("\n--- DEBUG: Iniciando processo de envio de email ---");
+  console.log("\n--- DEBUG: Iniciando processo de envio de email ---"); // Mantendo logs do nodemailer por enquanto
   console.log("DEBUG: Dados recebidos do formulário:", sugestao);
   console.log(`DEBUG: Verificando variáveis de ambiente...`);
   console.log(`DEBUG: EMAIL_USER: ${process.env.EMAIL_USER}`);
-  // CUIDADO: Não logue a senha em produção! Apenas para debug temporário. Remova depois.
   console.log(`DEBUG: EMAIL_PASS existe? ${process.env.EMAIL_PASS ? 'Sim (******)' : 'NÃO!!!'}`);
 
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -36,23 +30,17 @@ router.post('/sugestoes', async (req, res) => {
   }
 
   try {
-    // 1. Configurar o transportador
-    console.log("DEBUG: Tentando criar transporter Nodemailer...");
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // === ATIVAR LOGS DETALHADOS DO NODEMAILER ===
-      logger: true,
-      debug: true // Mostra a comunicação com o servidor SMTP
-      // ===========================================
+      logger: true, // Manter logs do nodemailer
+      debug: true   // Manter logs do nodemailer
     });
     console.log("DEBUG: Transporter criado.");
 
-    // 2. Montar o conteúdo do email
-    console.log("DEBUG: Montando opções do email...");
     let linguagemTexto = sugestao.linguagem;
     if (sugestao.linguagem === 'outra' && sugestao.outraLinguagemNome) {
       linguagemTexto = `Outra (${sugestao.outraLinguagemNome})`;
@@ -76,7 +64,6 @@ router.post('/sugestoes', async (req, res) => {
     };
     console.log("DEBUG: Opções do email:", mailOptions);
 
-    // 3. Enviar o email
     console.log("DEBUG: Tentando enviar email via transporter.sendMail...");
     let info = await transporter.sendMail(mailOptions);
     console.log('DEBUG: Email aparentemente enviado! Resposta do servidor:', info);
@@ -85,20 +72,15 @@ router.post('/sugestoes', async (req, res) => {
     res.redirect('/');
 
   } catch (error) {
-    console.error('!!! ERRO CAPTURADO AO ENVIAR EMAIL !!!:', error); // Log detalhado do erro
+    console.error('!!! ERRO CAPTURADO AO ENVIAR EMAIL !!!:', error);
     console.log("--- DEBUG: Fim do processo de envio de email (Com Erro) ---");
-    // Mostra o erro também na página para facilitar o debug (remova em produção)
     res.status(500).send(`Ocorreu um erro ao enviar a sugestão. Verifique o console do servidor. Detalhes: ${error.message}`);
   }
 });
 
 
-
-
 // === ROTAS DE LOGIN E LOGOUT ===
-router.get('/login', (req, res) => {
-  res.render('pages/login', { error: null });
-});
+router.get('/login', (req, res) => { res.render('pages/login', { error: null }); });
 router.post('/login', (req, res) => {
   const { password } = req.body;
   if (password === process.env.ADMIN_PASSWORD) {
@@ -127,16 +109,20 @@ function requireAdmin(req, res, next) {
   }
 }
 
-// --- ROTAS DE ADMIN PROTEGIDAS PELO MIDDLEWARE ---
+// --- ROTAS DE ADMIN PROTEGIDAS ---
 router.get('/admin', requireAdmin, (req, res) => {
   const projects = db.getProjects();
   res.render('pages/admin', { projects: projects, projectToEdit: null });
 });
+
+// ROTA POST /admin/add (Create) - Continua POST
 router.post('/admin/add', requireAdmin, (req, res) => {
   const { title, description, imageUrl, link } = req.body;
   db.addProject({ title, description, imageUrl, link });
   res.redirect('/admin');
 });
+
+// ROTA GET /admin/edit/:id (Read para Edição) - Continua GET
 router.get('/admin/edit/:id', requireAdmin, (req, res) => {
   const project = db.getProjectById(req.params.id);
   if (project) {
@@ -146,14 +132,22 @@ router.get('/admin/edit/:id', requireAdmin, (req, res) => {
     res.redirect('/admin');
   }
 });
-router.post('/admin/update/:id', requireAdmin, (req, res) => {
+
+// === ROTA PUT /admin/update/:id (Update) ===
+router.put('/admin/update/:id', requireAdmin, (req, res) => {
   const { title, description, imageUrl, link } = req.body;
   db.updateProject(req.params.id, { title, description, imageUrl, link });
+  console.log(`Projeto ${req.params.id} atualizado via PUT`); // Log opcional
   res.redirect('/admin');
 });
-router.post('/admin/delete/:id', requireAdmin, (req, res) => {
+// =========================================
+
+// === ROTA DELETE /admin/delete/:id (Delete) ===
+router.delete('/admin/delete/:id', requireAdmin, (req, res) => {
   db.deleteProject(req.params.id);
+  console.log(`Projeto ${req.params.id} deletado via DELETE`); // Log opcional
   res.redirect('/admin');
 });
+// ===========================================
 
 module.exports = router;

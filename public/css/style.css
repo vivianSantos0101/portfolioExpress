@@ -20,13 +20,14 @@
 
 .binary-digit {
   position: absolute;
-  color: #1e3a8a; /* Navy blue */
+  color: #1e40af; /* Azul blue-800 do Tailwind */
   font-family: 'Courier New', monospace;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   user-select: none;
   pointer-events: none;
-  text-shadow: 0 0 2px rgba(30, 58, 138, 0.1);
+  opacity: 0.4; /* Opacidade base aumentada */
+  text-shadow: 0 0 1px rgba(30, 64, 175, 0.2);
 }
 
 /* Animação de cair RETO */
@@ -36,10 +37,10 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.2;
+    opacity: inherit;
   }
   90% {
-    opacity: 0.1;
+    opacity: inherit;
   }
   100% {
     transform: translateY(100vh);
@@ -54,10 +55,10 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.2;
+    opacity: inherit;
   }
   90% {
-    opacity: 0.1;
+    opacity: inherit;
   }
   100% {
     transform: translateY(-100px);
@@ -70,11 +71,11 @@
   z-index: 10;
 }
 
-
 :root {
-  --navy-primary: #172554; /* Azul Marinho mais escuro (blue-950) */
-  --navy-light: #3b82f6;   /* Azul claro (blue-500) - para contraste */
-  --navy-dark: #1e3a8a;    /* Azul intermediário (blue-900) - para hover */
-  --navy-bg: #f0f4f8;      /* Fundo claro */
-  --navy-text: #1e293b;     /* Texto principal */
+  --navy-primary: #102E4A;  
+  --navy-light: #3b82f6;    
+  --navy-dark: #184065;     
+  --navy-bg: #f0f4f8;       
+  --navy-text: #1e293b;     
+  --pearl-light: #FFF7E6;   
 }

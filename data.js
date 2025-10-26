@@ -144,7 +144,9 @@ let data = {
 
     { name: "LinkedIn", href: "https://www.linkedin.com/in/vivianstoliveira/", iconClass: "fab fa-linkedin-in" },
 
-    { name: "GitHub", href: "https://github.com/vivianSantos0101", iconClass: "fab fa-github" }
+    { name: "GitHub", href: "https://github.com/vivianSantos0101", iconClass: "fab fa-github" },
+
+    { name: "Instagram", href: "", iconClass: "fab fa-instagram" }
 
     
 
