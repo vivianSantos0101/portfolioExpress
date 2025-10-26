@@ -18,6 +18,11 @@ router.get('/sugestoes', (req, res) => {
 router.post('/sugestoes', async (req, res) => {
   const sugestao = req.body;
 
+  router.get('/sugestao-enviada', (req, res) => {
+  const allData = db.getData(); // Pega os dados para passar ao footer
+  res.render('pages/obrigado', { data: allData }); // Renderiza a nova página
+});
+
   console.log("\n--- DEBUG: Iniciando processo de envio de email ---"); // Mantendo logs do nodemailer por enquanto
   console.log("DEBUG: Dados recebidos do formulário:", sugestao);
   console.log(`DEBUG: Verificando variáveis de ambiente...`);
@@ -66,10 +71,11 @@ router.post('/sugestoes', async (req, res) => {
 
     console.log("DEBUG: Tentando enviar email via transporter.sendMail...");
     let info = await transporter.sendMail(mailOptions);
+    // ... (envio do email) ...
     console.log('DEBUG: Email aparentemente enviado! Resposta do servidor:', info);
     console.log("--- DEBUG: Fim do processo de envio de email (Sucesso aparente) ---");
 
-    res.redirect('/');
+    res.redirect('/sugestao-enviada'); 
 
   } catch (error) {
     console.error('!!! ERRO CAPTURADO AO ENVIAR EMAIL !!!:', error);
