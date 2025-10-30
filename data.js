@@ -84,7 +84,7 @@ let data = {
 
       title: "BotEcho",
 
-      description: "IDE com LLM integrada para desenvolvimento Python.",
+      description: "IDE desenvolvida em JAVA com LLM integrada (Ollama) para desenvolvimento em Python.",
 
       imageUrl: "/assets/LogoBotEcho.png",
 
@@ -96,13 +96,15 @@ let data = {
 
       id: 2,
 
-      title: "EasyScrum",
+      title: "EntreNova",
 
-      description: "Ferramenta visual para gerenciamento de projetos ágeis.",
+      description: "Plataforma de criaçao de diagnosticos empresariais perzonalizados com I.A. (Typescript, React, Node.js).",
 
-      imageUrl: "/assets/LogoEasyScrum.png",
+      imageUrl: "/assets/LogoEntreNova.png",
 
-      link: "https://github.com/EquipeEcho/EasyScrum" // projeto api 1 semestre
+      link: "https://github.com/Equipe-SUL/EntreNova-Flix"
+      
+      // projeto api 3 semestre (atual)
 
     },
 
@@ -110,13 +112,13 @@ let data = {
 
       id: 3,
 
-      title: "EntreNova",
+      title: "EasyScrum",
 
-      description: "Plataforma de ideação e gestão de inovação.",
+      description: "Site Educacional sobre a metdodologia Scrum",
 
-      imageUrl: "/assets/LogoEntreNova.png",
+      imageUrl: "/assets/LogoEasyScrum.png",
 
-      link: "https://github.com/Equipe-SUL/EntreNova-Flix" // projeto api 3 semestre (atual)
+      link: " https://github.com/EquipeEcho/EasyScrum" // projeto api 1 semestre 
 
     },
 
@@ -126,7 +128,7 @@ let data = {
 
       title: "Gerenciador de Cursos",
 
-      description: "Gerenciador de Cursos em JAVA",
+      description: "Gerenciador de Cursos de uma instituição (CRUD) em JAVA",
 
       imageUrl: "/assets/LogoGerenciadorCurso.png",
 
@@ -144,7 +146,7 @@ let data = {
 
       imageUrl: "/assets/LogoAerocode.png",
 
-      link: "https://github.com/vivianSantos0101/GerenciadorCurso" // CRUD simples 2 semestre
+      link: "https://github.com/vivianSantos0101/AV1" // AV1 TypeScript 3 semestre, POO.
 
     }
 

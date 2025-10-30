@@ -11,10 +11,17 @@
           Disponível para novos projetos!
         </div>
 
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight hero-text">
-         Vivian Santos
-         <span class="block mt-2 text-[var(--navy-primary)] custom-neon-text">Desenvolvedora de Software</span>
+        <h1 class="font-bold text-gray-900 leading-tight hero-text">
+          
+          <span class="block text-5xl md:text-7xl">
+            Vivian Santos
+          </span>
+          
+          <span class="block mt-2 text-[var(--navy-primary)] custom-neon-text text-3xl md:text-5xl">
+            Desenvolvedora de Software
+          </span>
         </h1>
+
 
         <div class="mt-6 bg-white/30 backdrop-blur-sm p-4 rounded-lg max-w-xl mx-auto shadow-md">
             <p class="text-lg text-gray-800 leading-relaxed font-medium">
@@ -27,6 +34,7 @@
             <span>Explorar Projetos</span>
             <i class="fas fa-arrow-right ml-2 text-sm"></i>
           </a>
+          
           <a href="#contacto" class="text-gray-600 px-8 py-3.5 rounded-full font-medium hover:text-[var(--navy-primary)] transition-all duration-300 border border-gray-300 hover:border-[var(--navy-primary)] flex items-center">
             <span>Contatar</span>
             <i class="fas fa-comment ml-2 text-sm"></i>
@@ -49,6 +57,7 @@
           <div class="w-full md:w-3/5 text-lg text-gray-700 space-y-6 mt-8 md:mt-0">
              <h3 class="text-2xl font-semibold text-gray-800">Formação Acadêmica</h3>
              <% data.education.forEach(edu => { %> <p class="leading-relaxed"><span class="font-semibold text-[var(--navy-primary)]"><%= edu.course %></span><br><%= edu.institution %> (<%= edu.period %>)</p> <% }) %>
+      
              <h3 class="text-2xl font-semibold text-gray-800 pt-4">Cursos Complementares</h3>
              <ul class="list-disc list-inside"> <% data.certifications.forEach(cert => { %> <li><%= cert.name %></li> <% }) %> </ul>
              <h3 class="text-2xl font-semibold text-gray-800 pt-4">Competências Técnicas</h3>
@@ -71,18 +80,70 @@
           </p>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <% data.projects.forEach(project => { %>
-          <a href="<%= project.link %>" class="block group card-hover bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-300 hover:shadow-lg hover:border-blue-300 hover:-translate-y-1" target="_blank" rel="noopener noreferrer">
-            <div class="flex items-center">
-              <div class="flex-shrink-0"> <img src="<%= project.imageUrl %>" alt="Logo <%= project.title %>" class="w-16 h-16 object-contain"/> </div>
-              <div class="ml-5"> <h3 class="text-xl font-semibold text-gray-800 group-hover:text-[var(--navy-primary)]"><%= project.title %></h3> <p class="text-sm text-gray-600 mt-1"><%= project.description %></p> </div>
-            </div>
-          </a>
-        <% }) %>
+
+      <div class="relative">
+        <div class="swiper project-swiper overflow-hidden">
+          <div class="swiper-wrapper">
+            
+            <% data.projects.forEach(project => { %>
+              <div class="swiper-slide h-auto pb-4"> <a href="<%= project.link %>" class="block group card-hover bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-300 hover:shadow-lg hover:border-blue-300 hover:-translate-y-1 h-full flex" target="_blank" rel="noopener noreferrer">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0"> <img src="<%= project.imageUrl %>" alt="Logo <%= project.title %>" class="w-16 h-16 object-contain"/> </div>
+                    <div class="ml-5"> <h3 class="text-xl font-semibold text-gray-800 group-hover:text-[var(--navy-primary)]"><%= project.title %></h3> <p class="text-sm text-gray-600 mt-1"><%= project.description %></p> Não </div>
+                  </div>
+                </a>
+              </div>
+            <% }) %>
+            
+          </div>
+        </div>
+        
+        <div class="swiper-button-prev-custom absolute top-1/2 left-0 -translate-y-1/2 -translate-x-8 md:-translate-x-12 z-10 cursor-pointer p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition-colors">
+          <i class="fas fa-chevron-left text-[var(--navy-primary)]"></i>
+        </div>
+        <div class="swiper-button-next-custom absolute top-1/2 right-0 -translate-y-1/2 translate-x-8 md:translate-x-12 z-10 cursor-pointer p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition-colors">
+          <i class="fas fa-chevron-right text-[var(--navy-primary)]"></i>
+        </div>
       </div>
+
       <div class="text-center mt-12"> <a href="/admin" class="inline-flex items-center text-gray-600 hover:text-[var(--navy-primary)] font-medium transition-colors"><span>Gerenciar projetos (Admin)</span><i class="fas fa-arrow-right ml-2 text-sm"></i></a> </div>
     </section>
+    <section class="py-24 bg-blue-50">
+      <div class="max-w-6xl mx-auto px-6 lg:px-8 text-center">
+        
+        <h2 class="text-4xl font-bold text-[var(--navy-primary)] mb-4">
+          Gostou de algum projeto?
+        </h2>
+        
+        <p class="text-lg text-gray-700 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Faça sua sugestão na aba de sugestões ou me chame no LinkedIn para conversarmos!
+        </p>
+        
+        <div class="mt-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+          
+          <a 
+            href="/sugestoes" 
+            class="bg-[var(--navy-primary)] text-white px-8 py-3.5 rounded-full font-medium hover:bg-[var(--navy-dark)] transition-all duration-300 shadow-md hover:shadow-lg flex items-center w-full sm:w-auto justify-center"
+          >
+            <i class="fas fa-lightbulb mr-2 text-sm"></i>
+            <span>Fazer uma Sugestão</span>
+          </a>
+          
+          <a 
+            href="<%= data.socialLinks.find(link => link.name === 'LinkedIn').href %>" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="text-gray-600 px-8 py-3.5 rounded-full font-medium hover:text-[var(--navy-primary)] transition-all duration-300 border border-gray-300 hover:border-[var(--navy-primary)] flex items-center w-full sm:w-auto justify-center bg-white"
+          >
+            <i class="fab fa-linkedin-in mr-2 text-sm"></i>
+            <span>Chamar no LinkedIn</span>
+          </a>
+          
+        </div>
+        
+      </div>
+    </section>
+
   </main>
 
   <%- include('../partials/footer', { data: data }) %>

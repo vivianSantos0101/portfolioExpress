@@ -2,7 +2,8 @@
   <div class="container mx-auto px-6 text-center">
     <h2 class="text-3xl md:text-4xl font-bold text-white">Tem um projeto em mente?</h2>
     <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">
-      Eu adoraria ouvi-lo. Escreva para mim e vamos construir algo incrível juntos.
+      Eu adoraria ouvi-lo.
+      Escreva para mim e vamos construir algo incrível juntos.
     </p>
     <div class="mt-8">
       <a
@@ -15,20 +16,23 @@
     </div>
 
     <div class="flex justify-center space-x-6 mt-12">
+     
       <% data.socialLinks.forEach(link => { %>
         <a
           href="<%= link.href %>"
-          class="text-white bg-blue-900/50 p-3 rounded-full shadow-sm hover:shadow-md hover:bg-blue-700/60 transition-all duration-300 transform hover:scale-110" {/* Ícone branco, fundo ajustado, hover com scale */}
+          class="text-white bg-blue-900/50 p-3 rounded-full shadow-sm hover:shadow-md hover:bg-blue-700/60 transition-all duration-300 transform hover:scale-110"
           target="_blank"
           rel="noopener noreferrer"
         >
           <i class="<%= link.iconClass %> text-xl"></i>
+   
         </a>
       <% }) %>
     </div>
 
     <div class="mt-16 border-t border-blue-900 pt-8 text-gray-400 text-sm">
-      &copy; <%= new Date().getFullYear() %> <%= data.presentation.fullName %> &mdash; all rights reserved
+      &copy;
+      <%= new Date().getFullYear() %> <%= data.presentation.fullName %> &mdash; all rights reserved
     </div>
   </div>
 </footer>
@@ -47,7 +51,7 @@
       digit.className = 'binary-digit';
       digit.textContent = digits[Math.floor(Math.random() * digits.length)];
       digit.style.left = Math.random() * 100 + 'vw';
-      const isFalling = Math.random() > 0.3;
+       const isFalling = Math.random() > 0.3;
       digit.style.animationName = isFalling ? 'fall-straight' : 'rise-straight';
       digit.style.animationDuration = (Math.random() * 20 + 10) + 's';
       digit.style.opacity = Math.random() * 0.15 + 0.05;
@@ -65,6 +69,38 @@
       setTimeout(createDigit, Math.random() * 2000);
     }
     const interval = setInterval(createDigit, 150);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Verifica se o elemento swiper existe na página antes de inicializar
+    if (document.querySelector('.project-swiper')) {
+      const swiper = new Swiper('.project-swiper', {
+        loop: false,
+        spaceBetween: 32, // Corresponde ao 'gap-8' do Tailwind
+        
+        // Ajusta quantos slides são visíveis
+        slidesPerView: 1, 
+        
+        // Define breakpoints para telas maiores
+        breakpoints: {
+          // A partir de 768px (md), mostra 2 slides
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 32
+          }
+        },
+
+        // Botões de Navegação
+        navigation: {
+          nextEl: '.swiper-button-next-custom',
+          prevEl: '.swiper-button-prev-custom',
+        },
+      });
+    }
   });
 </script>
 
