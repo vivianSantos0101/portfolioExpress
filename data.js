@@ -132,7 +132,22 @@ let data = {
 
       link: "https://github.com/vivianSantos0101/GerenciadorCurso" // CRUD simples 2 semestre
 
+    },
+
+     {
+
+      id: 5,
+
+      title: "Aerocode CLI",
+
+      description: "Atvividade de criação de uma CLI em TypeScript, com tema de aviação",
+
+      imageUrl: "/assets/LogoAerocode.png",
+
+      link: "https://github.com/vivianSantos0101/GerenciadorCurso" // CRUD simples 2 semestre
+
     }
+
 
   ],
 
