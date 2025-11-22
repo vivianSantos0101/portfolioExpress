@@ -2,7 +2,7 @@
 
 const mysql = require('mysql2/promise');
 
-// Criar o Pool de Conexões (Mantenha este bloco intacto)
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -13,7 +13,7 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Manter APENAS os dados estáticos que não estão no DB
+// Manter APENAS os dados estáticos (não migrados para o DB)
 let staticData = {
   presentation: {
     fullName: "Vivian Santos",
@@ -21,20 +21,20 @@ let staticData = {
     bio: "Estudante de Análise e Desenvolvimento de Sistemas com forte inclinação para o desenvolvimento full stack. Dedico-me à arquitetura e construção de soluções de software completas, desde a experiência do utilizador até a lógica de negócios e persistência de dados.",
     profilePic: "/assets/Eu2.png"
   },
-  languages: ["Inglês (Fluente)", "Espanhol (Fluente)"], // Mantido estático
   socialLinks: [
-    { name: "LinkedIn", icon: "fab fa-linkedin", href: "LINKEDIN_URL_AQUI" },
-    { name: "GitHub", icon: "fab fa-github", href: "GITHUB_URL_AQUI" },
-    { name: "Instagram", icon: "fab fa-instagram", href: "INSTAGRAM_URL_AQUI" }
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/vivianstoliveira/", iconClass: "fab fa-linkedin-in" },
+    { name: "GitHub", href: "https://github.com/vivianSantos0101", iconClass: "fab fa-github" },
+    { name: "Instagram", href: "https://www.instagram.com/vivian_msants/", iconClass: "fab fa-instagram" }
   ],
- 
-  projects: [] 
+  projects: [] // Será preenchido dinamicamente
 };
 
 
 module.exports = {
   
-
+  pool: pool,
+  
+  // === FUNÇÕES DE BUSCA GERAL (INDEX) ===
   getEducation: async () => {
     const [rows] = await pool.query('SELECT course, institution, period FROM education ORDER BY id DESC');
     return rows;
@@ -47,17 +47,20 @@ module.exports = {
 
   getTechnicalSkills: async () => {
     const [rows] = await pool.query("SELECT name FROM skills WHERE type = 'technical' ORDER BY name ASC");
-   
     return rows.map(row => row.name);
   },
 
   getSoftSkills: async () => {
     const [rows] = await pool.query("SELECT name FROM skills WHERE type = 'soft' ORDER BY name ASC");
-   
     return rows.map(row => row.name);
   },
 
-  // === FUNÇÕES DE PROJETOS (Mantenha as existentes para CRUD) ===
+  getLanguagesList: async () => {
+    const [rows] = await pool.query('SELECT name FROM languages ORDER BY id DESC');
+    return rows.map(row => row.name);
+  },
+
+  // === FUNÇÕES DE PROJETOS (CRUD) ===
   getProjects: async () => {
     const [rows] = await pool.query('SELECT * FROM projects ORDER BY id DESC');
     return rows;
@@ -83,42 +86,79 @@ module.exports = {
       'UPDATE projects SET title = ?, description = ?, imageUrl = ?, link = ? WHERE id = ?',
       [title, description, imageUrl, link, id]
     );
-    return { id, ...updatedProject };
+    return { id: parseInt(id), ...updatedProject };
   },
   
   deleteProject: async (id) => {
-    await pool.query('DELETE FROM projects WHERE id = ?', [id]);
+    const [result] = await pool.query('DELETE FROM projects WHERE id = ?', [id]);
+    return result.affectedRows > 0;
+  },
+  
+  // === FUNÇÕES DE SKILLS (CRUD) ===
+  getAllSkills: async () => {
+    const [rows] = await pool.query('SELECT * FROM skills ORDER BY type, name ASC');
+    return rows;
+  },
+  getSkillById: async (id) => {
+    const [rows] = await pool.query('SELECT * FROM skills WHERE id = ?', [id]);
+    return rows[0];
+  },
+  addSkill: async (skill) => {
+    const { name, type } = skill;
+    await pool.query('INSERT INTO skills (name, type) VALUES (?, ?)', [name, type]);
+  },
+  updateSkill: async (id, updatedSkill) => {
+    const { name, type } = updatedSkill;
+    await pool.query('UPDATE skills SET name = ?, type = ? WHERE id = ?', [name, type, id]);
+  },
+  deleteSkill: async (id) => {
+    await pool.query('DELETE FROM skills WHERE id = ?', [id]);
   },
 
-  // === FUNÇÃO MESTRE ATUALIZADA (getData) ===
+  // === FUNÇÕES DE IDIOMAS (CRUD) ===
+  getLanguageById: async (id) => {
+    const [rows] = await pool.query('SELECT * FROM languages WHERE id = ?', [id]);
+    return rows[0];
+  },
+  addLanguage: async (language) => {
+    await pool.query('INSERT INTO languages (name) VALUES (?)', [language.name]);
+  },
+  updateLanguage: async (id, updatedLanguage) => {
+    await pool.query('UPDATE languages SET name = ? WHERE id = ?', [updatedLanguage.name, id]);
+  },
+  deleteLanguage: async (id) => {
+    await pool.query('DELETE FROM languages WHERE id = ?', [id]);
+  },
+
+  // === FUNÇÃO MESTRE (getData) ===
   getData: async () => {
     try {
-      // Busca TODOS os dados dinâmicos do DB
       const projects = await module.exports.getProjects();
       const education = await module.exports.getEducation();
       const certifications = await module.exports.getCertifications();
       const technicalSkills = await module.exports.getTechnicalSkills();
       const softSkills = await module.exports.getSoftSkills();
+      const languages = await module.exports.getLanguagesList(); 
       
-      // Mescla todos os dados (estáticos + dinâmicos)
       return { 
         ...staticData, 
         projects, 
         education, 
         certifications, 
         technicalSkills, 
-        softSkills
+        softSkills,
+        languages 
       };
     } catch (error) {
       console.error("Erro ao buscar dados completos do banco de dados:", error);
-      // Retorna dados estáticos e arrays vazios em caso de falha no DB
       return { 
           ...staticData, 
           projects: [], 
           education: [], 
           certifications: [], 
           technicalSkills: [], 
-          softSkills: [] 
+          softSkills: [],
+          languages: [] 
       }; 
     }
   }

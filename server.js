@@ -1,6 +1,3 @@
-// server.js
-
-// 1. Carrega variáveis de ambiente do .env
 require('dotenv').config(); 
 const express = require('express');
 const session = require('express-session');
@@ -11,23 +8,22 @@ const routes = require('./routes/index');
 const app = express();
 const PORT = process.env.PORT || 3000; 
 
-// =========================================================
+
 // CONFIGURAÇÃO DE VIEWS E ARQUIVOS ESTÁTICOS
-// =========================================================
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// =========================================================
-// MIDDLEWARES DE PROCESSAMENTO DE DADOS (ORDEM CRÍTICA)
-// =========================================================
 
-// 1. Parser para dados de formulário (DEVE VIR PRIMEIRO)
+// MIDDLEWARES 
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 
-// 2. Sobrescrever métodos HTTP (COM FUNÇÃO DE FORÇAMENTO)
+// Sobrescrever métodos HTTP (COM FUNÇÃO DE FORÇAMENTO)
 // Essa função garante que o valor do campo _method seja lido e depois removido
 // do corpo da requisição, forçando o Express a usar o método correto (PUT/DELETE).
 app.use(methodOverride(function (req, res) {
@@ -41,7 +37,7 @@ app.use(methodOverride(function (req, res) {
   }
 }));
 
-// 3. Configuração da Sessão
+// Configuração da Sessão
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback_secret_key_segura', 
   resave: false,
@@ -52,14 +48,14 @@ app.use(session({
   } 
 }));
 
-// =========================================================
+
 // ROTAS
-// =========================================================
+
 app.use('/', routes); 
 
-// =========================================================
+
 // INICIALIZAÇÃO DO SERVIDOR
-// =========================================================
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
