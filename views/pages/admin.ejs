@@ -7,7 +7,8 @@
 <div class="relative z-10 min-h-screen bg-transparent pt-24 pb-12">
   <div class="container mx-auto px-6 lg:px-10">
     <h1 class="text-3xl md:text-4xl font-bold text-[var(--navy-primary)] mb-6">Gerenciador de Projetos</h1>
-    <a href="/" class="text-blue-600 hover:text-[var(--navy-primary)] mb-8 block">&larr; Voltar ao Portfólio</a>
+    <a href="/" class="text-blue-600 hover:text-[var(--navy-primary)] mb-8 block">&larr;
+    Voltar ao Portfólio</a>
 
     <div class="bg-white/85 backdrop-blur-md p-6 md:p-8 rounded-lg shadow-xl mb-12 border border-gray-200/50">
       <h2 class="text-2xl font-semibold mb-6 text-[var(--navy-primary)]">
@@ -82,10 +83,11 @@
             <a href="/admin/edit/<%= project.id %>" class="bg-white text-[var(--navy-primary)] px-4 py-2 rounded-md font-medium hover:bg-gray-200 transition-colors duration-300 text-sm shadow border border-gray-300">
               Editar
             </a>
+            
             <form action="/admin/delete/<%= project.id %>" method="POST">
               <input type="hidden" name="_method" value="DELETE">
               <button type="submit" class="bg-white text-red-600 px-4 py-2 rounded-md font-medium hover:bg-gray-200 transition-colors duration-300 text-sm shadow border border-gray-300">
-                Deletar
+              Deletar
               </button>
             </form>
           </div>

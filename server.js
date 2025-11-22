@@ -1,46 +1,65 @@
-// Substitua o conteúdo do seu server.js por este:
+// server.js
 
+// 1. Carrega variáveis de ambiente do .env
 require('dotenv').config(); 
 const express = require('express');
 const session = require('express-session');
-// const bodyParser = require('body-parser'); // <-- REMOVA ESTA LINHA
 const path = require('path');
 const methodOverride = require('method-override');
 const routes = require('./routes/index');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; 
 
-// Configura o EJS
+// =========================================================
+// CONFIGURAÇÃO DE VIEWS E ARQUIVOS ESTÁTICOS
+// =========================================================
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Servir arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// === CORREÇÃO AQUI ===
-// Use os parsers NATIVOS do Express 5
+
+// =========================================================
+// MIDDLEWARES DE PROCESSAMENTO DE DADOS (ORDEM CRÍTICA)
+// =========================================================
+
+// 1. Parser para dados de formulário (DEVE VIR PRIMEIRO)
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// ====================
+app.use(express.json()); 
 
-// === CONFIGURAÇÃO METHOD OVERRIDE ===
-// DEVE VIR *DEPOIS* do express.urlencoded
-app.use(methodOverride('_method'));
-// ===================================
+// 2. Sobrescrever métodos HTTP (COM FUNÇÃO DE FORÇAMENTO)
+// Essa função garante que o valor do campo _method seja lido e depois removido
+// do corpo da requisição, forçando o Express a usar o método correto (PUT/DELETE).
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // Salva o valor do campo _method
+    var method = req.body._method;
+    // Remove o campo do corpo para evitar conflitos
+    delete req.body._method;
+    // Retorna o método correto (PUT ou DELETE)
+    return method;
+  }
+}));
 
-// === CONFIGURAÇÃO DA SESSÃO ===
+// 3. Configuração da Sessão
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback_secret_key', 
+  secret: process.env.SESSION_SECRET || 'fallback_secret_key_segura', 
   resave: false,
   saveUninitialized: false, 
-  cookie: { secure: false } 
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production', 
+    maxAge: 1000 * 60 * 60 * 24 
+  } 
 }));
-// === FIM DA CONFIGURAÇÃO DA SESSÃO ===
 
-// Usar as rotas (DEPOIS de todo o middleware)
+// =========================================================
+// ROTAS
+// =========================================================
 app.use('/', routes); 
 
+// =========================================================
+// INICIALIZAÇÃO DO SERVIDOR
+// =========================================================
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
